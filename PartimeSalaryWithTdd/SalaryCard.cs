@@ -1,5 +1,5 @@
-﻿using System;
-using PartimeSalaryWithTdd.Utility;
+﻿using PartimeSalaryWithTdd.Utility;
+using System;
 
 namespace PartimeSalaryWithTdd
 {
@@ -12,11 +12,31 @@ namespace PartimeSalaryWithTdd
         public int HourlySalary { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public double FirstOverTimeRatio { get; set; }
 
         public double CalculateSalary()
         {
             double workingHour = GetWorkingHour();
-            return workingHour * this.HourlySalary;
+            var isNormalWork = workingHour <= 8;
+            if (isNormalWork)
+            {
+                return workingHour * this.HourlySalary;
+            }
+            else
+            {
+                var normalPay = 8 * this.HourlySalary;
+
+                var overtimePay = GetOvertimePay(workingHour);
+
+                return normalPay + overtimePay;
+            }
+        }
+
+        private double GetOvertimePay(double workingHour)
+        {
+            var overtimeHour = workingHour - 8;
+            var overtimePay = overtimeHour * this.HourlySalary * this.FirstOverTimeRatio;
+            return overtimePay;
         }
 
         private double GetWorkingHour()
