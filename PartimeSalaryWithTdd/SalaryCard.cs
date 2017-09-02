@@ -45,10 +45,17 @@ namespace PartimeSalaryWithTdd
             {
                 var firstOvertimePay = 2 * this.HourlySalary * this.FirstOverTimeRatio;
 
-                var secondOvertimePay = (overtimeHour - 2) * this.HourlySalary * this.SecondOverTimeRatio;
+                var secondOvertimeHour = (overtimeHour - 2);
+                if (secondOvertimeHour > 2)
+                {
+                    secondOvertimeHour = 2;
+                }
+
+                var secondOvertimePay = secondOvertimeHour * this.HourlySalary * this.SecondOverTimeRatio;
                 return firstOvertimePay + secondOvertimePay;
+
             }
-            
+
         }
 
         private double GetWorkingHour()
